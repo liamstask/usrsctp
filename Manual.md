@@ -1,12 +1,11 @@
-# Socket API for the SCTP User-land Implementation (usrsctp)
+# SCTP User-land Implementation (usrsctp)
 
 by
 
-#### I. Rungeler
+#### I. Rüngeler
 
 > Munster University of Applied Sciences,</br>
-  Department of Electrical Engineering</br>
-  and Computer Science,</br>
+  Department of Electrical Engineering and Computer Science,</br>
   Stegerwaldstr. 39,</br>
   D-48565 Steinfurt,</br>
   Germany,</br>
@@ -15,8 +14,7 @@ by
 #### M.Tüxen
 
 > Munster University of Applied Sciences,</br>
-  Department of Electrical Engineering</br>
-  and Computer Science,</br>
+  Department of Electrical Engineering and Computer Science,</br>
   Stegerwaldstr.~39,</br>
   D-48565 Steinfurt,</br>
   Germany,</br>
@@ -24,19 +22,14 @@ by
 
 ## Introduction
 
-In this manual the socket API for the SCTP User-land implementation will be described. 
-It is based on RFC 6458~\cite{socketAPI}. The main focus of this document is on pointing out
- the differences to the SCTP Sockets API. For all aspects of the sockets API that are not
- mentioned in this document, please refer to RFC~6458. Questions about SCTP can hopefully be
- answered by RFC~4960~\cite{SCTP}.
+The SCTP protocol is a message oriented, reliable transport protocol with direct support for multihoming that runs on top of IP or UDP, and supports both v4 and v6 versions.
+
+Like TCP, SCTP provides reliable, connection oriented data delivery with congestion control. Unlike TCP, SCTP also provides message boundary preservation, ordered and unordered message delivery, multi-streaming and multi-homing. Detection of data corruption, loss of data and duplication of data is achieved by using checksums and sequence numbers. A selective retransmission mechanism is applied to correct loss or corruption of data.
+
+In this manual the socket API for the SCTP User-land implementation will be described.  It is based on [RFC 6458](http://tools.ietf.org/html/rfc6458). The main focus of this document is on pointing out the differences to the SCTP Sockets API. For all aspects of the sockets API that are not mentioned in this document, please refer to RFC~6458. Questions about SCTP itself can hopefully be answered by [RFC 4960](http://tools.ietf.org/html/rfc4960).
  
 ## Getting Started
-The User-land stack has been tested on FreeBSD 10.0, Ubuntu 11.10, Windows 7, Mac OS X 10.6, 
-and MAC OS X 10.7.
-The current version of the User-land stack is provided on [github](https://github.com/sctplab/usrsctp).
-Download the tarball and untar it in a folder of your choice. 
-The tarball contains all the sources to build the libusrsctp, which has to be linked to the object file of an 
-example program. In addition there are two applications in the folder `programs` that can be built and run.
+The User-land stack has been tested on FreeBSD 10.0, Ubuntu 11.10, Windows 7, Mac OS X 10.6, and Mac OS X 10.7. The current version of the User-land stack is provided on [github](https://github.com/sctplab/usrsctp). Download the tarball and untar it in a folder of your choice. The tarball contains all the sources to build the libusrsctp, which has to be linked to the object file of an example program. In addition there are two applications in the folder `programs` that can be built and run.
  
 ### Building the Library and the Applications
 #### Unix-like Operating Systems
@@ -45,17 +38,14 @@ In the folder `usrsctp` type
     $ ./configure
     $ make
 
-Now, the library `libusrsctp.la` has been built in the subdirectory `usrsctplib`, and the example 
-programs are ready to run from the subdirectory `programs`.
+Now, the library `libusrsctp.la` has been built in the subdirectory `usrsctplib`, and the example programs are ready to run from the subdirectory `programs`.
 
-If you have root privileges or are in the sudoer group, you can install the library in `/usr/local/lib`
-and copy the header file to `/usr/include` with the command
+If you have root privileges or are in the sudoer group, you can install the library in `/usr/local/lib` and copy the header file to `/usr/include` with the command
 
     $ sudo make install
 
 #### Windows
-On Windows you need a compiler like Microsoft Visual Studio. You can build the library and the
-example programs with the command line tool of the compiler by typing
+On Windows you need a compiler like Microsoft Visual Studio. You can build the library and the example programs with the command line tool of the compiler by typing
 
     $ nmake -f Makefile.nmake
 
@@ -63,24 +53,17 @@ in the directory `usrsctp`.
 
 ### Running the Test Programs
 
-There are two test programs included, a discard server and a client. You can run both to send data from the
-client to the server. The client reads data from stdin and sends them to the server, which prints the message
-in the terminal and discards it. The sources of the server are also provided in Section~\ref{server} and those
-of the client in Section~\ref{client}.
+Several test programs are included, including a discard server and a client. You can run both to send data from the client to the server. The client reads data from stdin and sends them to the server, which prints the message in the terminal and discards it. The sources of the server are also provided  [here](https://github.com/sctplab/usrsctp/blob/master/programs/discard_server.c) and those of the client [here](https://github.com/sctplab/usrsctp/blob/master/programs/client.c).
 
 ### Using UDP Encapsulation
 
-Both programs can either send data over SCTP directly or use UDP encapsulation, thus encapsulating the
-SCTP packet in a UDP datagram. The first mode works on loopback or in a protected setup without any 
-NAT boxes involved. In all other cases it is better to use UDP encapsulation.
+Both programs can either send data over SCTP directly or use UDP encapsulation, thus encapsulating the SCTP packet in a UDP datagram. The first mode works on loopback or in a protected setup without any NAT boxes involved. In all other cases it is better to use UDP encapsulation.
 
 The usage of the `discard_server` is
 
     $ discard_server [local_encaps_port remote_encaps_port]
 
-For UDP encapsulation the ports have to be specified. The local and remote encapsulation ports can be arbitrarily
-set.
-For example, you can call
+For UDP encapsulation the ports have to be specified. The local and remote encapsulation ports can be arbitrarily set. For example, you can call
 
     $ ./discard_server 11111 22222
 
@@ -90,16 +73,11 @@ on a Unix-like OS and
 
 on Windows.
 
-The client needs two additional parameters, the server's address and its port.
-Its usage is
+The client needs two additional parameters, the server's address and its port. Its usage is
 
     $ client remote_addr remote_port [local_port local_encaps_port remote_encaps_port]
 
-The remote address is the server's address. If client and server are started on the same machine,
-the loopback address `127.0.0.1` can be used for Unix-like OSs and the local address on Windows.
-The discard port is 9, thus 9 has to be taken as remote port. The encapsulation ports have to
-match those of the server, i.e. the server's `local_encaps_port` is the client's
-`remote_encaps_port` and vice versa. Thus, the client can be started with
+The remote address is the server's address. If client and server are started on the same machine, the loopback address `127.0.0.1` can be used for Unix-like OSs and the local address on Windows. The discard port is 9, thus 9 has to be taken as remote port. The encapsulation ports have to match those of the server, i.e. the server's `local_encaps_port` is the client's `remote_encaps_port` and vice versa. Thus, the client can be started with
 
     $ ./client 127.0.0.1 9 0 22222 11111
 
@@ -111,48 +89,34 @@ on Windows provided your local IP address is 192.168.0.1.
 
 ### Sending over SCTP
 
-To send data over SCTP directly you might need root privileges because raw sockets are used.
-Thus instead of specifying the encapsulation ports you have to start the programs prepending 
-`sudo` or in case of Windows start the program from an administrator console.
+To send data over SCTP directly you might need root privileges because raw sockets are used. Thus instead of specifying the encapsulation ports you have to start the programs prepending `sudo` or in case of Windows start the program from an administrator console.
 
 ### Using the Callback API
 
-Instead of asking constantly for new data, a callback API can be used that is triggered by 
-SCTP. A callback function has to be registered that will be called whenever data is ready to
-be delivered to the application.
+Instead of asking constantly for new data, a callback API can be used that is triggered by SCTP. A callback function has to be registered that will be called whenever data is ready to be delivered to the application.
 
-The `discard_server` has a flag to switch between the two modi. If  `use_cb` is set to 1, the
-callback API will be used. To change the setting, just set the flag and compile the program again.
+The `discard_server` has a flag to switch between the two modi. If  `use_cb` is set to 1, the callback API will be used. To change the setting, just set the flag and compile the program again.
 
 
 ## Basic Operations
 
-All system calls start with the prefix `usrsctp_` to distinguish them from the kernel variants. 
-Some of them are changed to account for the different demands in the userland environment. 
+All system calls start with the prefix `usrsctp_` to distinguish them from the kernel variants. Some of them are changed to account for the different demands in the userland environment. 
 
 ## Differences to RFC 6458
 
 ### usrsctp_init()
 
-Every application has to start with `usrsctp_init()`. This function calls `sctp_init()` and reserves
-the memory necessary to administer the data transfer.
-The function prototype is 
+Every application has to start with `usrsctp_init()`. This function calls `sctp_init()` and reserves the memory necessary to administer the data transfer. The function prototype is 
 
 ```c
 void usrsctp_init(uint16_t udp_port)
 ```
 
-As it is not always possible to send data directly over SCTP because not all NAT boxes can
-process SCTP packets, the data can be sent over UDP. To encapsulate SCTP into UDP
-a UDP port has to be specified, to which the datagrams can be sent. This local UDP port  is set 
-with the parameter `udp_port`. The default value is 9899, the standard UDP encapsulation port.
-If UDP encapsulation is not necessary, the UDP port has to be set to 0.
+As it is not always possible to send data directly over SCTP because not all NAT boxes can process SCTP packets, the data can be sent over UDP. To encapsulate SCTP into UDP a UDP port has to be specified, to which the datagrams can be sent. This local UDP port  is set with the parameter `udp_port`. The default value is 9899, the standard UDP encapsulation port. If UDP encapsulation is not necessary, the UDP port has to be set to 0.
 
 ### usrsctp_finish()
 
-At the end of the program `usrsctp_finish()` should be called to free all the memory that has been
-allocated before.
-The function prototype is 
+At the end of the program `usrsctp_finish()` should be called to free all the memory that has been allocated before. The function prototype is 
 
 ```c
 int usrsctp_finish(void)
@@ -188,23 +152,16 @@ socket it is SOCK_STREAM. For an explanation of the differences between the sock
 refer to RFC~6458.
 * protocol: Set IPPROTO_SCTP.
 
-In usrsctp a callback API can be used. The function pointers of the receive and send callbacks
-are new arguments to the socket call. They are NULL, if no callback API is used. The `sb_threshold` 
-specifies the amount of free space in the send socket buffer before the send function in the 
-application is called. If a send callback function is specified and `sb_threshold` is 0, the function is
-called whenever there is room in the send socket buffer.
+In usrsctp a callback API can be used. The function pointers of the receive and send callbacks are new arguments to the socket call. They are NULL, if no callback API is used. The `sb_threshold` specifies the amount of free space in the send socket buffer before the send function in the application is called. If a send callback function is specified and `sb_threshold` is 0, the function is called whenever there is room in the send socket buffer.
 
-On success `usrsctp_socket()` returns the pointer to the new socket in the `struct socket` data type. 
-It will be needed in all other system calls. In case of a failure NULL is returned and
-errno is set to the appropriate error code.
+On success `usrsctp_socket()` returns the pointer to the new socket in the `struct socket` data type. It will be needed in all other system calls. In case of a failure NULL is returned and errno is set to the appropriate error code.
 
 ### usrsctp_close()
 
 The function prototype of `usrsctp_close()` is 
 
 ```c 
-void
-usrsctp_close(struct socket *so)
+void usrsctp_close(struct socket *so)
  ```
 Thus the only difference is the absence of a return code. 
  
@@ -377,8 +334,8 @@ usrsctp_setsockopt(struct socket *so,
 and the arguments are
 * so:  The socket of type struct socket.
 * level:  Set to IPPROTO_SCTP for all SCTP options.
-* optname:  The option name as specified in Table~\ref{options}.
-* optval: The buffer to store the value of the option as specified in the second column of Table~\ref{options}.
+* optname:  The option name as specified in The Socket Options table below.
+* optval: The buffer to store the value of the option as specified in the second column of Socket Options below.
 * optlen:  The size of the buffer (or the length of the option returned in case of `usrsctp_getsockopt`).
 
 These functions return 0 on success and -1 in case of an error.
@@ -425,12 +382,11 @@ SCTP_RESET_STREAMS | struct sctp_reset_streams | w
 SCTP_RESET_ASSOC | struct sctp_assoc_t | w
 SCTP_ADD_STREAMS | struct sctp_add_streams | w
 
-An overview of the supported options is given in Table~\ref{options}. Their use is described in RFC~6458~\cite{socketAPI}, RFC~6525~\cite{streamReset}, and~\cite{udpencaps}.
+Further usage details are described in [RFC 6458](tools.ietf.org/html/rfc6458), [RFC 6525](tools.ietf.org/html/rfc6525), and [draft-ietf-tsvwg-sctp-udp-encaps-03](https://tools.ietf.org/html/draft-ietf-tsvwg-sctp-udp-encaps-03) (work in progress).
 
 ## Sysctl variables
 
-In kernel implementations like for instance FreeBSD, it is possible to change parameters
-in the operating system. These parameters are called sysctl variables.
+In kernel implementations like for instance FreeBSD, it is possible to change parameters in the operating system. These parameters are called sysctl variables.
 
 In usrsctp applications can set or retrieve these variables with the functions
 ```c
@@ -446,44 +402,33 @@ In the following paragraphs a short description of the parameters will be given.
 
 ## Manipulate Memory
 #### usrsctp_sysctl_set_sctp_sendspace()
-The space of the available send buffer can be changed from its default value of 262,144 bytes
-to a value between 0 and `2^32 - 1` bytes.
+The space of the available send buffer can be changed from its default value of 262,144 bytes to a value between 0 and `2^32 - 1` bytes.
 
 #### usrsctp_sysctl_set_sctp_recvspace()
-The space of the available receive buffer can be changed from its default value of 262,144 bytes
-to a value between 0 and `2^32 - 1` bytes.
+The space of the available receive buffer can be changed from its default value of 262,144 bytes to a value between 0 and `2^32 - 1` bytes.
 
 #### usrsctp_sysctl_set_sctp_hashtblsize()
-The TCB (Thread Control Block) hash table sizes, i.e. the size of one TCB in the hash table, can be tuned between 
-1 and `2^32 - 1` bytes. The default value is 1,024 bytes. A TCB contains for instance pointers to the socket, the
-endpoint, information about the association and some statistic data.
+The TCB (Thread Control Block) hash table sizes, i.e. the size of one TCB in the hash table, can be tuned between 1 and `2^32 - 1` bytes. The default value is 1,024 bytes. A TCB contains for instance pointers to the socket, the endpoint, information about the association and some statistic data.
 
 #### usrsctp_sysctl_set_sctp_pcbtblsize()
-The PCB (Protocol Control Block) hash table sizes, i.e. the size of one PCB in the hash table, can be tuned between 
-1 and `2^32 - 1` bytes. The default value is 256 bytes. The PCB contains all variables that characterize an endpoint.
+The PCB (Protocol Control Block) hash table sizes, i.e. the size of one PCB in the hash table, can be tuned between 1 and `2^32 - 1` bytes. The default value is 256 bytes. The PCB contains all variables that characterize an endpoint.
 
 #### usrsctp_sysctl_set_sctp_system_free_resc_limit()
-This parameters tunes the maximum number of cached resources in the system. It can be set between 
-0 and `2^32 - 1`. The default value is 1000.
+This parameters tunes the maximum number of cached resources in the system. It can be set between 0 and `2^32 - 1`. The default value is 1000.
 
 #### usrsctp_sysctl_set_sctp_asoc_free_resc_limit()
-This parameters tunes the maximum number of cached resources in an association. It can be set between 
-0 and `2^32 - 1`. The default value is 10.
+This parameters tunes the maximum number of cached resources in an association. It can be set between 0 and `2^32 - 1`. The default value is 10.
 
 #### usrsctp_sysctl_set_sctp_mbuf_threshold_count()
-Data is stored in mbufs. Several mbufs can be chained together. The maximum number of small mbufs in a chain
-can be set with this parameter, before an mbuf cluset is used. The default is 5.
+Data is stored in mbufs. Several mbufs can be chained together. The maximum number of small mbufs in a chain can be set with this parameter, before an mbuf cluset is used. The default is 5.
 
 #### usrsctp_sysctl_set_sctp_add_more_threshold()
 TBD
-This parameter configures the threshold below which more space should be added to a socket send buffer.
-The default value is 1452 bytes.
+This parameter configures the threshold below which more space should be added to a socket send buffer. The default value is 1452 bytes.
 
 
 ## Configure RTO
-The retransmission timeout (RTO), i.e. the time that controls the retransmission of messages, has
-several parameters, that can be changed, for example to shorten the time, before a message is
-retransmitted. The range of these parameters is between 0 and `2^32 - 1`~ms. 
+The retransmission timeout (RTO), i.e. the time that controls the retransmission of messages, has several parameters, that can be changed, for example to shorten the time, before a message is retransmitted. The range of these parameters is between 0 and `2^32 - 1`ms. 
 
 #### usrsctp_sysctl_set_sctp_rto_max_default()
 The default value for the maximum retransmission timeout in ms is 60,000 (60~secs). 
@@ -492,8 +437,7 @@ The default value for the maximum retransmission timeout in ms is 60,000 (60~sec
 The default value for the minimum retransmission timeout in ms is 1,000 (1~sec). 
 
 #### usrsctp_sysctl_set_sctp_rto_initial_default()
-The default value for the initial retransmission timeout in ms is 3,000 (3~sec). This value is only
-needed before the first calculation of a round trip time took place.
+The default value for the initial retransmission timeout in ms is 3,000 (3~sec). This value is only needed before the first calculation of a round trip time took place.
 
 #### usrsctp_sysctl_set_sctp_init_rto_max_default()
 The default value for the maximum retransmission timeout for an INIT chunk in ms is 60,000 (60~secs). 
@@ -501,21 +445,17 @@ The default value for the maximum retransmission timeout for an INIT chunk in ms
 
 ## Set Timers
 #### usrsctp_sysctl_set_sctp_valid_cookie_life_default()
-A cookie has a specified life time. If it expires the cookie is not valid any more and an ABORT is sent.
-The default value in ms is 60,000 (60~secs).
+A cookie has a specified life time. If it expires the cookie is not valid any more and an ABORT is sent. The default value in ms is 60,000 (60~secs).
 
 #### usrsctp_sysctl_set_sctp_heartbeat_interval_default()
-Set the default time between two heartbeats. The default is 30,000~ms.
+Set the default time between two heartbeats. The default is 30,000ms.
 
 #### usrsctp_sysctl_set_sctp_shutdown_guard_time_default()
-If a SHUTDOWN is not answered with a SHUTDOWN-ACK while the shutdown guard timer is still
-running, the association will be aborted after the default of 180~secs.
+If a SHUTDOWN is not answered with a SHUTDOWN-ACK while the shutdown guard timer is still running, the association will be aborted after the default of 180~secs.
 
 #### usrsctp_sysctl_set_sctp_pmtu_raise_time_default()
 TBD
-To set the size of the packets to the highest value possible, the maximum transfer unit (MTU)
-of the complete path has to be known. The default time interval for the path mtu discovery
-is 600~secs.
+To set the size of the packets to the highest value possible, the maximum transfer unit (MTU) of the complete path has to be known. The default time interval for the path mtu discovery is 600~secs.
 
 #### usrsctp_sysctl_set_sctp_secret_lifetime_default()
 TBD
@@ -527,25 +467,19 @@ Vtag time wait time, 0 disables it. Default: 60~secs
 
 
 ## Set Failure Limits
-Transmissions and retransmissions of messages might fail. To protect the system against too many
-retransmissions, limits have to be defined.
+Transmissions and retransmissions of messages might fail. To protect the system against too many retransmissions, limits have to be defined.
 
 #### usrsctp_sysctl_set_sctp_init_rtx_max_default()
 The default maximum number of retransmissions of an INIT chunks is 8, before an ABORT is sent.
 
 #### usrsctp_sysctl_set_sctp_assoc_rtx_max_default()
-This parameter sets the maximum number of failed retransmissions before the association is aborted.
-The default vaule is 10.
+This parameter sets the maximum number of failed retransmissions before the association is aborted. The default vaule is 10.
 
 #### usrsctp_sysctl_set_sctp_path_rtx_max_default()
-This parameter sets the maximum number of path failures before the association is aborted.
-The default value is 5. Notice that the number of paths multiplied by this value should be 
-equal to `sctp_assoc_rtx_max_default`. That means that the default configuration is good for two 
-paths.
+This parameter sets the maximum number of path failures before the association is aborted. The default value is 5. Notice that the number of paths multiplied by this value should be equal to `sctp_assoc_rtx_max_default`. That means that the default configuration is good for two paths.
 
 #### usrsctp_sysctl_set_sctp_max_retran_chunk()
-The parameter configures how many times an unlucky chunk can be retransmitted before the 
-association aborts. The default is set to 30.
+The parameter configures how many times an unlucky chunk can be retransmitted before the association aborts. The default is set to 30.
 
 #### usrsctp_sysctl_set_sctp_path_pf_threshold()
 TBD
@@ -558,31 +492,20 @@ When one-2-one hits qlimit abort. Default: 0
 
 ## Control the Sending of SACKs
 #### usrsctp_sysctl_set_sctp_sack_freq_default()
-The SACK frequency defines the number of packets that are awaited, before a SACK is sent. 
-The default value is 2.
+The SACK frequency defines the number of packets that are awaited, before a SACK is sent. The default value is 2.
 
 #### usrsctp_sysctl_set_sctp_delayed_sack_time_default()
-As a SACK (Selective Acknowlegment) is sent after every other packet, a timer is set to send a
-SACK in case another packet does not arrive in due time. The default value for this timer is
-200~ms.
+As a SACK (Selective Acknowlegment) is sent after every other packet, a timer is set to send a SACK in case another packet does not arrive in due time. The default value for this timer is 200ms.
 
 #### usrsctp_sysctl_set_sctp_strict_sacks()
 TBD
-This is a flag to turn the controlling of the coherence of SACKs on or off. The default value is
-1 (on).
+This is a flag to turn the controlling of the coherence of SACKs on or off. The default value is 1 (on).
 
 #### usrsctp_sysctl_set_sctp_nr_sack_on_off()
-If a slow hosts receives data on a lossy link it is possible that its receiver window is full and new 
-data can only be accepted if one chunk with a higher TSN (Transmission Sequence Number) that has 
-previously been acknowledged is dropped. As a consequence the sender has to store data, even if
-they have been acknowledged in case they have to be retransmitted. If this behavior is not necessary,
-non-renegable SACKs can be turned on. 
-By default the use of non-renegable SACKs is turned off.
+If a slow hosts receives data on a lossy link it is possible that its receiver window is full and new data can only be accepted if one chunk with a higher TSN (Transmission Sequence Number) that has previously been acknowledged is dropped. As a consequence the sender has to store data, even if they have been acknowledged in case they have to be retransmitted. If this behavior is not necessary, non-renegable SACKs can be turned on. By default the use of non-renegable SACKs is turned off.
 
 #### usrsctp_sysctl_set_sctp_enable_sack_immediately()
-In some cases it is not desirable to wait for the SACK timer to expire before a SACK is sent. In these
-cases a bit called SACK-IMMEDIATELY~\cite{sack-imm} can be set to provoke the instant sending of a SACK. 
-The default is to turn it off. 
+In some cases it is not desirable to wait for the SACK timer to expire before a SACK is sent. In these cases a bit called SACK-IMMEDIATELY~\cite{sack-imm} can be set to provoke the instant sending of a SACK. The default is to turn it off. 
 
 #### usrsctp_sysctl_set_sctp_L2_abc_variable()
 TBD
@@ -592,31 +515,24 @@ SCTP ABC max increase per SACK (L). Default: 1
 Max burst defines the maximum number of packets that may be sent in one flight.
 
 #### usrsctp_sysctl_set_sctp_max_burst_default()
-The default value for max burst is 0, which means that the number of packets sent as a flight
-is not limited by this parameter, but may be by another one, see the next paragraph.
+The default value for max burst is 0, which means that the number of packets sent as a flight is not limited by this parameter, but may be by another one, see the next paragraph.
 
 #### usrsctp_sysctl_set_sctp_use_cwnd_based_maxburst()
-The use of max burst is based on the size of the congestion window (cwnd). 
-This parameter is set by default.
+The use of max burst is based on the size of the congestion window (cwnd). This parameter is set by default.
 
 #### usrsctp_sysctl_set_sctp_hb_maxburst()
 Heartbeats are mostly used to verify a path. Their number can be limited. The default is 4.
 
 #### usrsctp_sysctl_set_sctp_fr_max_burst_default()
-In the state of fast retransmission the number of packet bursts can be limited. The default
-value is 4.
+In the state of fast retransmission the number of packet bursts can be limited. The default value is 4.
 
 
 ## Handle Chunks
 #### usrsctp_sysctl_set_sctp_peer_chunk_oh()
-In order to keep track of the peer's advertised receiver window, the sender calculates the window by
-subtracting the amount of data sent. Yet, some OSs reduce the receiver window by the real space needed
-to store the data. This parameter sets the additional amount to debit the peer's receiver window per
-chunk sent. The default value is 256, which is the value needed by FreeBSD.
+In order to keep track of the peer's advertised receiver window, the sender calculates the window by subtracting the amount of data sent. Yet, some OSs reduce the receiver window by the real space needed to store the data. This parameter sets the additional amount to debit the peer's receiver window per chunk sent. The default value is 256, which is the value needed by FreeBSD.
 
 #### usrsctp_sysctl_set_sctp_max_chunks_on_queue()
-This parameter sets the maximum number of chunks that can be queued per association. The default 
-value is 512.
+This parameter sets the maximum number of chunks that can be queued per association. The default value is 512.
 
 #### usrsctp_sysctl_set_sctp_min_split_point()
 TBD
@@ -628,8 +544,7 @@ This parameter can be tuned for scaling of number of chunks and messages. The de
 
 #### usrsctp_sysctl_set_sctp_min_residual()
 TBD
-This parameter configures the minimum size of the residual data chunk in the second
-part of the split. The default is 1452.
+This parameter configures the minimum size of the residual data chunk in the second part of the split. The default is 1452.
 
 
 ## Calculate RTT
@@ -655,8 +570,7 @@ The congestion control should protect the network against fast senders.
 Explicit congestion notifications are turned on by default.
 
 #### usrsctp_sysctl_set_sctp_default_cc_module()
-This parameter sets the default algorithm for the congestion control.
-Default is 0, i.e. the one specified in RFC~4960.
+This parameter sets the default algorithm for the congestion control. Default is 0, i.e. the one specified in RFC~4960.
 
 #### usrsctp_sysctl_set_sctp_initial_cwnd()
 Set the initial congestion window in MTUs. The default is 3.
@@ -671,9 +585,7 @@ How many the sames it takes to try step down of cwnd. Default: 20
 
 
 ## Configure AUTH and ADD-IP
-An important extension of SCTP is the dynamic address reconfiguration~\cite{addip}, also known as
-ADD-IP, which allows the changing of addresses during the lifetime of an association.
-For this feature the AUTH extension~\cite{auth} is necessary.
+An important extension of SCTP is the dynamic address reconfiguration~\cite{addip}, also known as ADD-IP, which allows the changing of addresses during the lifetime of an association. For this feature the AUTH extension~\cite{auth} is necessary.
 
 #### usrsctp_sysctl_set_sctp_auto_asconf()
 If SCTP Auto-ASCONF is enabled, the peer is informed automatically when a new address
@@ -691,9 +603,7 @@ to 1.
 
 
 ## Concurrent Multipath Transfer (CMT)
-A prominent feature of SCTP is the possibility to use several addresses for the same association.
-One is the primary path, and the others are needed in case of a path failure. Using CMT the data is sent 
-on several paths to enhance the throughput.
+A prominent feature of SCTP is the possibility to use several addresses for the same association. One is the primary path, and the others are needed in case of a path failure. Using CMT the data is sent on several paths to enhance the throughput.
 
 #### usrsctp_sysctl_set_sctp_cmt_on_off()
 To turn CMT on, this parameter has to be set to 1.
@@ -702,8 +612,7 @@ To turn CMT on, this parameter has to be set to 1.
 To use delayed acknowledgments with CMT this parameter has to be set to 1.
 
 #### usrsctp_sysctl_set_sctp_buffer_splitting()
-For CMT it makes sense to split the send and receive buffer to have shares for each path. 
-By default buffer splitting is turned off.
+For CMT it makes sense to split the send and receive buffer to have shares for each path. By default buffer splitting is turned off.
 
 
 ## Network Address Translation (NAT)
@@ -731,12 +640,10 @@ Enable SCTP fast handoff. default: 0
 
 ## Miscellaneous
 #### usrsctp_sysctl_set_sctp_no_csum_on_loopback()
-Calculating the checksum for packets sent on loopback is turned off by default.
-To turn it on, set this parameter to 0.
+Calculating the checksum for packets sent on loopback is turned off by default. To turn it on, set this parameter to 0.
 
 #### usrsctp_sysctl_set_sctp_nr_outgoing_streams_default()
-The peer is notified about the number of outgoing streams in the INIT or INIT-ACK chunk.
-The default is 10. 
+The peer is notified about the number of outgoing streams in the INIT or INIT-ACK chunk. The default is 10. 
 
 #### usrsctp_sysctl_set_sctp_do_drain()
 Determines whether SCTP should respond to the drain calls. Default: 1		
@@ -766,10 +673,10 @@ Enable SCTP blackholing. Default: 0
 Set the logging level. The default is 0.
 
 #### usrsctp_sysctl_set_sctp_debug_on()
-Turn debug output on or off. It is disabled by default. To obtain debug output,
-`SCTP_DEBUG` has to be set as a compile flag.
+Turn debug output on or off. It is disabled by default. To obtain debug output, `SCTP_DEBUG` has to be set as a compile flag.
 
-The following variables are supported:
+
+### sysctl variables supported by usrsctp
 
 Parameter | Meaning | Default Value
 --------- | ------- | -------------
@@ -779,17 +686,17 @@ sctp_hashtblsize | Tunable for TCB hash table sizes | 1024
 sctp_pcbtblsize | Tunable for PCB hash table sizes | 256
 sctp_system_free_resc_limit | Cached resources in the system | 1000
 sctp_asoc_free_resc_limit | Cashed resources in an association | 10
-sctp_rto_max_default | Default value for RTO_max | 60000~ms
-sctp_rto_min_default | Default value for RTO_min | 1000~ms
-sctp_rto_initial_default | Default value for RTO_initial | 3000~ms
-sctp_init_rto_max_default | Default value for the maximum RTO for sending an INIT | 60000~ms
-sctp_valid_cookie_life_default | Valid cookie life time | 60000~ms
+sctp_rto_max_default | Default value for RTO_max | 60000ms
+sctp_rto_min_default | Default value for RTO_min | 1000ms
+sctp_rto_initial_default | Default value for RTO_initial | 3000ms
+sctp_init_rto_max_default | Default value for the maximum RTO for sending an INIT | 60000ms
+sctp_valid_cookie_life_default | Valid cookie life time | 60000ms
 sctp_init_rtx_max_default | Maximum number of INIT retransmissions | 8
 sctp_assoc_rtx_max_default | Maximum number of failed retransmissions before the association is aborted | 10
 sctp_path_rtx_max_default | Maximum number of failed retransmissions before a path fails | 5
 sctp_ecn_enable | Enabling explicit congestion notifications | 1
 sctp_strict_sacks | Control the coherence of SACKs | 1
-sctp_delayed_sack_time_default | Default delayed SACK timer | 200~ms
+sctp_delayed_sack_time_default | Default delayed SACK timer | 200ms
 sctp_sack_freq_default | Default SACK frequency | 2
 sctp_nr_sack_on_off | Turn non-renegable SACKs on or off | 0
 sctp_enable_sack_immediately | Enable sending of the SACK-IMMEDIATELY bit | 0
@@ -802,7 +709,7 @@ sctp_max_chunks_on_queue | Default max chunks on queue per asoc | 512
 sctp_min_split_point | Minimum size when splitting a chunk | 2904
 sctp_chunkscale | Tunable for Scaling of number of chunks and messages | 10 
 sctp_mbuf_threshold_count | Maximum number of small mbufs in a chain | 5
-sctp_heartbeat_interval_default | Deafult time between two Heartbeats | 30000~ms
+sctp_heartbeat_interval_default | Deafult time between two Heartbeats | 30000ms
 sctp_pmtu_raise_time_default | Default PMTU raise timer | 600~secs
 sctp_shutdown_guard_time_default | Default shutdown guard timer | 180~secs
 sctp_secret_lifetime_default | Default secret lifetime | 3600~secs
@@ -875,7 +782,7 @@ R. Stewart, Q. Xie, M. Tüxen, S. Maruyama, and M. Kozuka:</br>
 [RFC 5061](http://tools.ietf.org/html/rfc5061), September~2007.
 
 #### sack-imm
-M. Tüxen, I. Rungeler, and R. Stewart:</br>
+M. Tüxen, I. Rüngeler, and R. Stewart:</br>
 `SACK-IMMEDIATELY Extension for the Stream Control Transmission Protocol`</br>
 [draft-tuexen-tsvwg-sctp-sack-immediately-09](https://tools.ietf.org/html/draft-tuexen-tsvwg-sctp-sack-immediately-09) (work in progress), April~2012.
 
