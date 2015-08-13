@@ -4,22 +4,22 @@ by
 
 #### I. Rungeler
 
-> Munster University of Applied Sciences,
-> Department of Electrical Engineering
-> and Computer Science,
-> Stegerwaldstr.~39,
-> D-48565 Steinfurt,
-> Germany,
-> i.ruengeler@fh-muenster.de
+> Munster University of Applied Sciences,</br>
+  Department of Electrical Engineering</br>
+  and Computer Science,</br>
+  Stegerwaldstr. 39,</br>
+  D-48565 Steinfurt,</br>
+  Germany,</br>
+  i.ruengeler@fh-muenster.de
 
-#### M.Tuxen
+#### M.Tüxen
 
-> Munster University of Applied Sciences,
-  Department of Electrical Engineering
-  and Computer Science,
-  Stegerwaldstr.~39,
-  D-48565 Steinfurt,
-  Germany,
+> Munster University of Applied Sciences,</br>
+  Department of Electrical Engineering</br>
+  and Computer Science,</br>
+  Stegerwaldstr.~39,</br>
+  D-48565 Steinfurt,</br>
+  Germany,</br>
   tuexen@fh-muenster.de.
 
 ## Introduction
@@ -850,44 +850,36 @@ See https://github.com/sctplab/usrsctp/tree/master/programs
 ## References
 
 #### socketAPI
-R.~Stewart, M.~Tuxen, K.~Poon, and V.~Yasevich:
-
-`Sockets API Extensions for the Stream Control Transmission Protocol (SCTP)`.
-
+R. Stewart, M. Tüxen, K. Poon, and V. Yasevich:</br>
+`Sockets API Extensions for the Stream Control Transmission Protocol (SCTP)`.</br>
 [RFC 6458](http://tools.ietf.org/html/rfc6458), Dezember~2011.
 
 #### SCTP
-R.~Stewart:
-
-`Stream Control Transmission Protocol`.
-
+R. Stewart:</br>
+`Stream Control Transmission Protocol`.</br>
 [RFC 4960](http://tools.ietf.org/html/rfc4960), September~2007.
 
 #### auth
-M.~Tuxen, R.~Stewart, P.~Lei, and E.~Rescorla:
-
-`Authenticated Chunks for the Stream Control Transmission Protocol (SCTP)`.
-
+M. Tüxen, R. Stewart, P. Lei, and E. Rescorla:</br>
+`Authenticated Chunks for the Stream Control Transmission Protocol (SCTP)`.</br>
 [RFC 4895](http://tools.ietf.org/html/rfc4895), August~2007.
 
 #### streamReset
-R.~Stewart, M.~Tuxen, and P.~Lei:
-`Stream Control Transmission Protocol (SCTP) Stream Reconfiguration`.
+R. Stewart, M. Tüxen, and P. Lei:</br>
+`Stream Control Transmission Protocol (SCTP) Stream Reconfiguration`.</br>
 [RFC 6525](http://tools.ietf.org/html/rfc6525), February~2012.
 
 #### addip
-R.~Stewart,  Q.~Xie, M.~T\"uxen, S.~Maruyama, and M.~Kozuka:
-`Stream Control Transmission Protocol (SCTP) Dynamic Address Reconfiguration`.
+R. Stewart, Q. Xie, M. Tüxen, S. Maruyama, and M. Kozuka:</br>
+`Stream Control Transmission Protocol (SCTP) Dynamic Address Reconfiguration`.</br>
 [RFC 5061](http://tools.ietf.org/html/rfc5061), September~2007.
 
 #### sack-imm
-
-M.~Tuxen, I.~Rungeler, and R.~Stewart:
-`SACK-IMMEDIATELY Extension for the Stream Control Transmission Protocol`
+M. Tüxen, I. Rungeler, and R. Stewart:</br>
+`SACK-IMMEDIATELY Extension for the Stream Control Transmission Protocol`</br>
 [draft-tuexen-tsvwg-sctp-sack-immediately-09](https://tools.ietf.org/html/draft-tuexen-tsvwg-sctp-sack-immediately-09) (work in progress), April~2012.
 
 #### udpencaps
-
-M.~Tuxen and R.~Stewart
-`UDP Encapsulation of SCTP Packets`
+M. Tüxen and R. Stewart</br>
+`UDP Encapsulation of SCTP Packets`</br>
 [draft-ietf-tsvwg-sctp-udp-encaps-03](https://tools.ietf.org/html/draft-ietf-tsvwg-sctp-udp-encaps-03) (work in progress), March~2012.
