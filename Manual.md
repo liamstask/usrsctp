@@ -1,24 +1,6 @@
-# SCTP User-land Implementation (usrsctp)
+# SCTP user-land implementation (usrsctp)
 
-by
-
-#### I. Rüngeler
-
-> Munster University of Applied Sciences,</br>
-  Department of Electrical Engineering and Computer Science,</br>
-  Stegerwaldstr. 39,</br>
-  D-48565 Steinfurt,</br>
-  Germany,</br>
-  i.ruengeler@fh-muenster.de
-
-#### M.Tüxen
-
-> Munster University of Applied Sciences,</br>
-  Department of Electrical Engineering and Computer Science,</br>
-  Stegerwaldstr.~39,</br>
-  D-48565 Steinfurt,</br>
-  Germany,</br>
-  tuexen@fh-muenster.de.
+{i.ruengeler | tuexen}@fh-muenster.de
 
 ## Introduction
 
@@ -29,7 +11,7 @@ Like TCP, SCTP provides reliable, connection oriented data delivery with congest
 In this manual the socket API for the SCTP User-land implementation will be described.  It is based on [RFC 6458](http://tools.ietf.org/html/rfc6458). The main focus of this document is on pointing out the differences to the SCTP Sockets API. For all aspects of the sockets API that are not mentioned in this document, please refer to [RFC 6458](http://tools.ietf.org/html/rfc6458). Questions about SCTP itself can hopefully be answered by [RFC 4960](http://tools.ietf.org/html/rfc4960).
  
 ## Getting Started
-The User-land stack has been tested on FreeBSD 10.0, Ubuntu 11.10, Windows 7, Mac OS X 10.6, and Mac OS X 10.7. The current version of the User-land stack is provided on [github](https://github.com/sctplab/usrsctp). Download the tarball and untar it in a folder of your choice. The tarball contains all the sources to build the libusrsctp, which has to be linked to the object file of an example program. In addition there are two applications in the folder `programs` that can be built and run.
+The User-land stack has been tested on FreeBSD 10.0, Ubuntu 11.10, Windows 7, Mac OS X 10.6, and Mac OS X 10.7. The current version of the user-land stack is provided on [github](https://github.com/sctplab/usrsctp). Download the tarball and untar it in a folder of your choice. The tarball contains all the sources to build the libusrsctp, which has to be linked to the object file of an example program. In addition there are two applications in the folder `programs` that can be built and run.
  
 ### Building the Library and the Applications
 #### Unix-like Operating Systems
