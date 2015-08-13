@@ -409,39 +409,39 @@ This parameter configures the threshold below which more space should be added t
 The retransmission timeout (RTO), i.e. the time that controls the retransmission of messages, has several parameters, that can be changed, for example to shorten the time, before a message is retransmitted. The range of these parameters is between 0 and `2^32 - 1`ms. 
 
 #### usrsctp_sysctl_set_sctp_rto_max_default()
-The default value for the maximum retransmission timeout in ms is 60,000 (60~secs). 
+The default value for the maximum retransmission timeout in ms is 60,000 (60secs). 
 
 #### usrsctp_sysctl_set_sctp_rto_min_default()
-The default value for the minimum retransmission timeout in ms is 1,000 (1~sec). 
+The default value for the minimum retransmission timeout in ms is 1,000 (1sec). 
 
 #### usrsctp_sysctl_set_sctp_rto_initial_default()
-The default value for the initial retransmission timeout in ms is 3,000 (3~sec). This value is only needed before the first calculation of a round trip time took place.
+The default value for the initial retransmission timeout in ms is 3,000 (3sec). This value is only needed before the first calculation of a round trip time took place.
 
 #### usrsctp_sysctl_set_sctp_init_rto_max_default()
-The default value for the maximum retransmission timeout for an INIT chunk in ms is 60,000 (60~secs). 
+The default value for the maximum retransmission timeout for an INIT chunk in ms is 60,000 (60secs). 
 
 
 ## Set Timers
 #### usrsctp_sysctl_set_sctp_valid_cookie_life_default()
-A cookie has a specified life time. If it expires the cookie is not valid any more and an ABORT is sent. The default value in ms is 60,000 (60~secs).
+A cookie has a specified life time. If it expires the cookie is not valid any more and an ABORT is sent. The default value in ms is 60,000 (60secs).
 
 #### usrsctp_sysctl_set_sctp_heartbeat_interval_default()
 Set the default time between two heartbeats. The default is 30,000ms.
 
 #### usrsctp_sysctl_set_sctp_shutdown_guard_time_default()
-If a SHUTDOWN is not answered with a SHUTDOWN-ACK while the shutdown guard timer is still running, the association will be aborted after the default of 180~secs.
+If a SHUTDOWN is not answered with a SHUTDOWN-ACK while the shutdown guard timer is still running, the association will be aborted after the default of 180secs.
 
 #### usrsctp_sysctl_set_sctp_pmtu_raise_time_default()
 TBD
-To set the size of the packets to the highest value possible, the maximum transfer unit (MTU) of the complete path has to be known. The default time interval for the path mtu discovery is 600~secs.
+To set the size of the packets to the highest value possible, the maximum transfer unit (MTU) of the complete path has to be known. The default time interval for the path mtu discovery is 600secs.
 
 #### usrsctp_sysctl_set_sctp_secret_lifetime_default()
 TBD
-The default secret lifetime of a server is 3600~secs.
+The default secret lifetime of a server is 3600secs.
 
 #### usrsctp_sysctl_set_sctp_vtag_time_wait()
 TBD
-Vtag time wait time, 0 disables it. Default: 60~secs
+Vtag time wait time, 0 disables it. Default: 60secs
 
 
 ## Set Failure Limits
@@ -688,9 +688,9 @@ sctp_min_split_point | Minimum size when splitting a chunk | 2904
 sctp_chunkscale | Tunable for Scaling of number of chunks and messages | 10 
 sctp_mbuf_threshold_count | Maximum number of small mbufs in a chain | 5
 sctp_heartbeat_interval_default | Deafult time between two Heartbeats | 30000ms
-sctp_pmtu_raise_time_default | Default PMTU raise timer | 600~secs
-sctp_shutdown_guard_time_default | Default shutdown guard timer | 180~secs
-sctp_secret_lifetime_default | Default secret lifetime | 3600~secs
+sctp_pmtu_raise_time_default | Default PMTU raise timer | 600secs
+sctp_shutdown_guard_time_default | Default shutdown guard timer | 180secs
+sctp_secret_lifetime_default | Default secret lifetime | 3600secs
 sctp_add_more_threshold | Threshold when more space should be added to a socket send buffer | 1452
 sctp_nr_outgoing_streams_default | Default number of outgoing streams | 10
 sctp_cmt_on_off | Turn CMT on or off. | 0
@@ -714,7 +714,7 @@ sctp_default_frag_interleave | Default fragment interleave level | 1
 sctp_mobility_base | Enable SCTP base mobility | 0
 sctp_mobility_fasthandoff | Enable SCTP fast handoff | 0
 sctp_L2_abc_variable | SCTP ABC max increase per SACK (L) | 1
-sctp_vtag_time_wait | Vtag time wait time, 0 disables it. | 60~secs
+sctp_vtag_time_wait | Vtag time wait time, 0 disables it. | 60secs
 sctp_blackhole | Enable SCTP blackholing | 0
 sctp_path_pf_threshold | Default potentially failed threshold | 65535
 sctp_rttvar_bw | Shift amount for bw smoothing on rtt calc | 4
