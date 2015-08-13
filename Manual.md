@@ -505,7 +505,7 @@ This is a flag to turn the controlling of the coherence of SACKs on or off. The 
 If a slow hosts receives data on a lossy link it is possible that its receiver window is full and new data can only be accepted if one chunk with a higher TSN (Transmission Sequence Number) that has previously been acknowledged is dropped. As a consequence the sender has to store data, even if they have been acknowledged in case they have to be retransmitted. If this behavior is not necessary, non-renegable SACKs can be turned on. By default the use of non-renegable SACKs is turned off.
 
 #### usrsctp_sysctl_set_sctp_enable_sack_immediately()
-In some cases it is not desirable to wait for the SACK timer to expire before a SACK is sent. In these cases a bit called SACK-IMMEDIATELY~\cite{sack-imm} can be set to provoke the instant sending of a SACK. The default is to turn it off. 
+In some cases it is not desirable to wait for the SACK timer to expire before a SACK is sent. In these cases a bit called SACK-IMMEDIATELY (see [draft-tuexen-tsvwg-sctp-sack-immediately-09](https://tools.ietf.org/html/draft-tuexen-tsvwg-sctp-sack-immediately-09)) can be set to provoke the instant sending of a SACK. The default is to turn it off. 
 
 #### usrsctp_sysctl_set_sctp_L2_abc_variable()
 TBD
@@ -585,7 +585,7 @@ How many the sames it takes to try step down of cwnd. Default: 20
 
 
 ## Configure AUTH and ADD-IP
-An important extension of SCTP is the dynamic address reconfiguration~\cite{addip}, also known as ADD-IP, which allows the changing of addresses during the lifetime of an association. For this feature the AUTH extension~\cite{auth} is necessary.
+An important extension of SCTP is the dynamic address reconfiguration (see [RFC 5061](http://tools.ietf.org/html/rfc5061)), also known as ADD-IP, which allows the changing of addresses during the lifetime of an association. For this feature the AUTH extension (see [RFC 4895](http://tools.ietf.org/html/rfc4895)) is necessary.
 
 #### usrsctp_sysctl_set_sctp_auto_asconf()
 If SCTP Auto-ASCONF is enabled, the peer is informed automatically when a new address
