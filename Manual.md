@@ -1,7 +1,5 @@
 # SCTP user-land implementation (usrsctp)
 
-{i.ruengeler | tuexen}@fh-muenster.de
-
 The SCTP protocol is a message oriented, reliable transport protocol with direct support for multihoming that runs on top of IP or UDP, and supports both v4 and v6 versions.
 
 Like TCP, SCTP provides reliable, connection oriented data delivery with congestion control. Unlike TCP, SCTP also provides message boundary preservation, ordered and unordered message delivery, multi-streaming and multi-homing. Detection of data corruption, loss of data and duplication of data is achieved by using checksums and sequence numbers. A selective retransmission mechanism is applied to correct loss or corruption of data.
@@ -9,7 +7,7 @@ Like TCP, SCTP provides reliable, connection oriented data delivery with congest
 In this manual the socket API for the SCTP User-land implementation will be described.  It is based on [RFC 6458](http://tools.ietf.org/html/rfc6458). The main focus of this document is on pointing out the differences to the SCTP Sockets API. For all aspects of the sockets API that are not mentioned in this document, please refer to [RFC 6458](http://tools.ietf.org/html/rfc6458). Questions about SCTP itself can hopefully be answered by [RFC 4960](http://tools.ietf.org/html/rfc4960).
  
 ## Getting Started
-The User-land stack has been tested on FreeBSD 10.0, Ubuntu 11.10, Windows 7, Mac OS X 10.6, and Mac OS X 10.7. The current version of the user-land stack is provided on [github](https://github.com/sctplab/usrsctp). Download the tarball and untar it in a folder of your choice. The tarball contains all the sources to build the libusrsctp, which has to be linked to the object file of an example program. In addition there are two applications in the folder `programs` that can be built and run.
+The user-land stack has been tested on FreeBSD 10.0, Ubuntu 11.10, Windows 7, Mac OS X 10.6, and Mac OS X 10.7. The current version of the user-land stack is provided on [github](https://github.com/sctplab/usrsctp). Download the tarball and untar it in a folder of your choice. The tarball contains all the sources to build the libusrsctp, which has to be linked to the object file of an example program. In addition there are two applications in the folder `programs` that can be built and run.
  
 ### Building the Library and the Applications
 #### Unix-like Operating Systems
