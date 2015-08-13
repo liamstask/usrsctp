@@ -26,7 +26,7 @@ The SCTP protocol is a message oriented, reliable transport protocol with direct
 
 Like TCP, SCTP provides reliable, connection oriented data delivery with congestion control. Unlike TCP, SCTP also provides message boundary preservation, ordered and unordered message delivery, multi-streaming and multi-homing. Detection of data corruption, loss of data and duplication of data is achieved by using checksums and sequence numbers. A selective retransmission mechanism is applied to correct loss or corruption of data.
 
-In this manual the socket API for the SCTP User-land implementation will be described.  It is based on [RFC 6458](http://tools.ietf.org/html/rfc6458). The main focus of this document is on pointing out the differences to the SCTP Sockets API. For all aspects of the sockets API that are not mentioned in this document, please refer to RFC~6458. Questions about SCTP itself can hopefully be answered by [RFC 4960](http://tools.ietf.org/html/rfc4960).
+In this manual the socket API for the SCTP User-land implementation will be described.  It is based on [RFC 6458](http://tools.ietf.org/html/rfc6458). The main focus of this document is on pointing out the differences to the SCTP Sockets API. For all aspects of the sockets API that are not mentioned in this document, please refer to [RFC 6458](http://tools.ietf.org/html/rfc6458). Questions about SCTP itself can hopefully be answered by [RFC 4960](http://tools.ietf.org/html/rfc4960).
  
 ## Getting Started
 The User-land stack has been tested on FreeBSD 10.0, Ubuntu 11.10, Windows 7, Mac OS X 10.6, and Mac OS X 10.7. The current version of the User-land stack is provided on [github](https://github.com/sctplab/usrsctp). Download the tarball and untar it in a folder of your choice. The tarball contains all the sources to build the libusrsctp, which has to be linked to the object file of an example program. In addition there are two applications in the folder `programs` that can be built and run.
@@ -144,12 +144,12 @@ usrsctp_socket(int domain,
                uint32_t sb_threshold)
 ```
 
-and the arguments taken from RFC~6458 are
+and the arguments taken from [RFC 6458](http://tools.ietf.org/html/rfc6458) are
 
 * domain: PF_INET or PF_INET6 can be used.
 * type: In case of a one-to-many style socket it is SOCK_SEQPACKET, in case of a one-to-one style 
 socket it is SOCK_STREAM. For an explanation of the differences between the socket types please
-refer to RFC~6458.
+refer to [RFC 6458](http://tools.ietf.org/html/rfc6458).
 * protocol: Set IPPROTO_SCTP.
 
 In usrsctp a callback API can be used. The function pointers of the receive and send callbacks are new arguments to the socket call. They are NULL, if no callback API is used. The `sb_threshold` specifies the amount of free space in the send socket buffer before the send function in the application is called. If a send callback function is specified and `sb_threshold` is 0, the function is called whenever there is room in the send socket buffer.
@@ -168,7 +168,7 @@ Thus the only difference is the absence of a return code.
 ## Same Functionality as RFC 6458
 
 The following functions have the same functionality as their kernel pendants. There prototypes
-are described in the following subsections. For a detailed description please refer to RFC~6458.
+are described in the following subsections. For a detailed description please refer to [RFC 6458](http://tools.ietf.org/html/rfc6458).
 
 ### usrsctp_bind()
 
@@ -244,7 +244,7 @@ usrsctp_shutdown(struct socket *so, int how)
 `usrsctp_listen()` returns 0 on success and -1 in case of an error.
 
 ## Sending and Receiving Data
-Since the publication of RFC~6458 there is only one function for sending and one for receiving
+Since the publication of [RFC 6458](http://tools.ietf.org/html/rfc6458) there is only one function for sending and one for receiving
 that is not deprecated. Therefore, only these two are described here.
 
 ### usrsctp_sendv()
@@ -265,16 +265,16 @@ usrsctp_sendv(struct socket *so,
 * so: The socket to send data on.
 * data: As it is more convenient to send data in a buffer and not a `struct iovec` data structure, we chose to pass the data as a void pointer.
 * len: Length of the data.
-* addrs: In this version of usrsctp at most one destination address is supported. In the case of a connected socket, the parameter \texttt{addrs} can be set to NULL.
+* addrs: In this version of usrsctp at most one destination address is supported. In the case of a connected socket, the parameter `addrs` can be set to NULL.
 * addrcnt: Number of addresses. As at most one address is supported, addrcnt is 0 if addrs is NULL and 1 otherwise.
-* info: Additional information for a message is stored in `void *info`. The data types `struct sctp_sndinfo`, `struct sctp_prinfo`, and `struct sctp_sendv_spa` are supported as defined in RFC~6458. Support for `struct sctp_authinfo` is not implemented yet, therefore, errno is set EINVAL and -1 will be returned, if it is used.
+* info: Additional information for a message is stored in `void *info`. The data types `struct sctp_sndinfo`, `struct sctp_prinfo`, and `struct sctp_sendv_spa` are supported as defined in [RFC 6458](http://tools.ietf.org/html/rfc6458). Support for `struct sctp_authinfo` is not implemented yet, therefore, errno is set EINVAL and -1 will be returned, if it is used.
 * infolen: Length of info in bytes.
 * infotype: Identifies the type of the information provided in info. Possible values are
   * SCTP_SENDV_NOINFO
   * SCTP_SENDV_SNDINFO
   * SCTP_SENDV_PRINFO
-  * SCTP_SENDV_SPA (For additional information please refer to RFC~6458.)
-* flags: Flags as described in RFC~6458.
+  * SCTP_SENDV_SPA (For additional information please refer to [RFC 6458](http://tools.ietf.org/html/rfc6458).)
+* flags: Flags as described in [RFC 6458](http://tools.ietf.org/html/rfc6458).
 
 `usrsctp_sendv()` returns the number of bytes sent, or -1 if an error occurred.  The variable errno is then set appropriately.
 
@@ -298,20 +298,20 @@ usrsctp_recvv(struct socket *so,
 * len: Length of the buffer in bytes.
 * from: A pointer to an address to be filled with the sender of the received message's address.
 * fromlen: An in/out parameter describing the from length.
-* info: A pointer to the buffer to hold the attributes of the received message.  The structure type of info is determined by the infotype parameter. The attributes returned in `info` have to be handled in the same way as specified in RFC~6458.
+* info: A pointer to the buffer to hold the attributes of the received message.  The structure type of info is determined by the infotype parameter. The attributes returned in `info` have to be handled in the same way as specified in [RFC 6458](http://tools.ietf.org/html/rfc6458).
 * infolen:  An in/out parameter describing the size of the info buffer.
 * infotype:  On return, `*infotype` is set to the type of the info buffer.  The current defined values are
   * SCTP_RECVV_NOINFO
   * SCTP_RECVV_RCVINFO
   * SCTP_RECVV_NXTINFO
-  * SCTP_RECVV_RN (A detailed description is given in RFC~6458)
+  * SCTP_RECVV_RN (A detailed description is given in [RFC 6458](http://tools.ietf.org/html/rfc6458))
 * flags: A pointer to an integer to be filled with any message flags (e.g., `MSG_NOTIFICATION`).  Note that this field is an in/out parameter.  Options for the receive may also be passed into the value (e.g., `MSG_EOR`).  Returning from the call, the flags' value will differ from its original value.
 
 `usrsctp_recvv()` returns the number of bytes sent, or -1 if an error occurred.  The variable errno is then set appropriately.
 
 ## Socket Options
 Socket options are used to change the default behavior of socket calls.
-Their behavior is specified in RFC~6458. The functions to get or set them are
+Their behavior is specified in [RFC 6458](http://tools.ietf.org/html/rfc6458). The functions to get or set them are
 
 ```c
 int
@@ -570,7 +570,7 @@ The congestion control should protect the network against fast senders.
 Explicit congestion notifications are turned on by default.
 
 #### usrsctp_sysctl_set_sctp_default_cc_module()
-This parameter sets the default algorithm for the congestion control. Default is 0, i.e. the one specified in RFC~4960.
+This parameter sets the default algorithm for the congestion control. Default is 0, i.e. the one specified in [RFC 4960](http://tools.ietf.org/html/rfc4960).
 
 #### usrsctp_sysctl_set_sctp_initial_cwnd()
 Set the initial congestion window in MTUs. The default is 3.
